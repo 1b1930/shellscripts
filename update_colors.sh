@@ -1,10 +1,12 @@
 #!/bin/bash
 
 # this script updates dunst's colors with the colors from xrdb, since dunst
-# doesn't have a native way of using xrdb colors like i3 or polybar does
+# doesn't have a native way of using xrdb colors like i3 or polybar does.
+# it also updates the urxvt*background color in Xresources with the *.background color from xrdb.
+
 # this script gets executed after i make changes to my .Xresources
 # you'll have to find a way to do this on your setup,
-# i just use a bash alias (vim ~/.Xresources && xrdb ~/.Xresources && update_colors.sh)
+# i just use a bash alias (vim ~/.Xresources && xrdb ~/.Xresources && update_colors.sh).
 
 # get the "background" color from xrdb
 background=$(xrdb -query | grep "*.background" | cut -f2)
@@ -47,7 +49,8 @@ green=$(echo $background | cut -d# -f2 | cut -c3-4 | sed 's/$/00/')
 blue=$(echo $background | cut -d# -f2 | cut -c5-6 | sed 's/$/00/')
 
 # now we can put the color back together in RGBA format
-
+# TODO: is this REALLY the best way to make sed interpret / as part of the string?
+# because it works, but it looks ugly
 rgba="$red\/$green\/$blue\/$alpha"
 
 # now replace the urxvt*background color in Xresources with the new rgba color
